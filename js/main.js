@@ -43,12 +43,6 @@ function toggleSpeaking() {
 let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 let recognition = new SpeechRecognition();
 
-// when it turns off it self
-recognition.onspeechend = function() {
-    evaluateQuestion(answer);
-    toggleSpeaking()
-}
-
 // setting up the events
 recognition.onresult = function(event) {
 
@@ -62,9 +56,10 @@ recognition.onresult = function(event) {
   
     // Add the current transcript to the contents of our Note.
     answer += transcript;
-
+    
+    // answers
     evaluateQuestion(answer);
-    toggleSpeaking()
+    toggleSpeaking();
 }
 
 
