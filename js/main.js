@@ -57,6 +57,7 @@ recognition.onresult = function(event) {
     // Add the current transcript to the contents of our Note.
     answer += transcript;
     
+    console.log(answer);
     // answers
     evaluateQuestion(answer);
     toggleSpeaking();
@@ -83,9 +84,13 @@ function evaluateQuestion(question) {
             readOutLoud("My name is The Assistant");
             return 1;
             
-        case "Who is martin":
-            readOutLoud("Martin is my friend who is gay");
+        case "Suck my dick":
+            readOutLoud("Smrdíš ty píčo");
             return 1;
+
+            case "Who is martin":
+                readOutLoud("Martin is my friend who is gay");
+                return 1;
 
         default:
             return 0;
