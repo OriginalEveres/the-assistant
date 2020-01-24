@@ -28,7 +28,6 @@ function toggleState() {
 // function that toggles ui
 function toggleSpeaking() {
     if (state == 1) {
-        recognition.stop();
         button.innerHTML = "Start";
         main_header.innerHTML = "The assistant";
     }else {
@@ -44,6 +43,12 @@ function toggleSpeaking() {
 let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 let recognition = new SpeechRecognition();
 
+// when it turns off it self
+recognition.onspeechend = function() {
+    evaluateQuestion(answer);
+    toggleSpeaking()
+}
+
 // setting up the events
 recognition.onresult = function(event) {
 
@@ -56,9 +61,11 @@ recognition.onresult = function(event) {
     var transcript = event.results[current][0].transcript;
   
     // Add the current transcript to the contents of our Note.
-    noteContent += transcript;
-    noteTextarea.val(noteContent);
-  }
+    answer += transcript;
+
+    evaluateQuestion(answer);
+    toggleSpeaking()
+}
 
 
 // function that reads the message
@@ -72,4 +79,20 @@ function readOutLoud(message) {
     speech.pitch = 1;
   
     window.speechSynthesis.speak(speech);
+}
+
+// function that handles answers
+function evaluateQuestion(question) {
+    switch(question) {
+        case "What's your name":
+            readOutLoud("My name is The Assistant");
+            return 1;
+            
+        case "Who is martin":
+            readOutLoud("Martin is my friend who is gay");
+            return 1;
+
+        default:
+            return 0;
+    } 
 }
