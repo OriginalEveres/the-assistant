@@ -7,6 +7,26 @@ let main_header = document.getElementById("main-header");
 let eye_bg = document.getElementById("eye_bg");
 let answer = "";
 
+// setting up the speech recognizer 
+let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+let recognition = new SpeechRecognition();
+
+
+// setting up the events
+recognition.onresult = function(event) {
+    var current = event.resultIndex;
+  
+    // Get a transcript of what was said.
+    var transcript = event.results[current][0].transcript;
+  
+    // Add the current transcript to the contents of our Note.
+    answer += transcript;
+
+    // answers
+    evaluateQuestion(answer);
+    toggleSpeaking();
+}
+
 // subscribe onmouseevent to DOM
 document.onmousemove = function () {
     let x = event.clientX * 100 / window.innerWidth + "%";
@@ -39,30 +59,6 @@ function toggleSpeaking() {
     toggleState();
 }
 
-// setting up the speech recognizer 
-let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-let recognition = new SpeechRecognition();
-
-// setting up the events
-recognition.onresult = function(event) {
-
-    // event is a SpeechRecognitionEvent object.
-    // It holds all the lines we have captured so far. 
-    // We only need the current one.
-    var current = event.resultIndex;
-  
-    // Get a transcript of what was said.
-    var transcript = event.results[current][0].transcript;
-  
-    // Add the current transcript to the contents of our Note.
-    answer += transcript;
-    
-    console.log(answer);
-    // answers
-    evaluateQuestion(answer);
-    toggleSpeaking();
-}
-
 
 // function that reads the message
 function readOutLoud(message) {
@@ -85,12 +81,8 @@ function evaluateQuestion(question) {
             return 1;
             
         case "Suck my dick":
-            readOutLoud("Smrdíš ty píčo");
+            readOutLoud("Ahoj");
             return 1;
-
-            case "Who is martin":
-                readOutLoud("Martin is my friend who is gay");
-                return 1;
 
         default:
             return 0;
