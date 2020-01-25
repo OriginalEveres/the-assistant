@@ -7,24 +7,28 @@ let main_header = document.getElementById("main-header");
 let eye_bg = document.getElementById("eye_bg");
 let answer = "";
 
-// setting up the speech recognizer 
-let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-let recognition = new SpeechRecognition();
+try {    
+    // setting up the speech recognizer 
+    let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    let recognition = new SpeechRecognition();
 
+    // setting up the events
+    recognition.onresult = function(event) {
+        var current = event.resultIndex;
+    
+        // Get a transcript of what was said.
+        var transcript = event.results[current][0].transcript;
+    
+        // Add the current transcript to the contents of our Note.
+        answer += transcript;
 
-// setting up the events
-recognition.onresult = function(event) {
-    var current = event.resultIndex;
-  
-    // Get a transcript of what was said.
-    var transcript = event.results[current][0].transcript;
-  
-    // Add the current transcript to the contents of our Note.
-    answer += transcript;
-
-    // answers
-    evaluateQuestion(answer);
-    toggleSpeaking();
+        // answers
+        evaluateQuestion(answer);
+        toggleSpeaking();
+    }
+}catch (e) {
+    console.log(e);
+    main_header.innerHTML = "The Asisstant does not work in your browser.";
 }
 
 // subscribe onmouseevent to DOM
@@ -63,6 +67,7 @@ function toggleSpeaking() {
 // function that reads the message
 function readOutLoud(message) {
     var speech = new SpeechSynthesisUtterance();
+    speech.lang = "en-US";
   
     // Set the text and voice attributes.
     speech.text = message;
@@ -75,16 +80,32 @@ function readOutLoud(message) {
 
 // function that handles answers
 function evaluateQuestion(question) {
-    switch(question) {
-        case "What's your name":
-            readOutLoud("My name is The Assistant");
-            return 1;
-            
-        case "Suck my dick":
-            readOutLoud("Ahoj");
-            return 1;
+    // loop through the commands
 
-        default:
-            return 0;
-    } 
+    for (var key in json_commands.questions) {
+        // check also if property is not inherited from prototype
+        if (json_commands.questions.hasOwnProperty(key)) { 
+          console.log("looping");
+        }
+    }
 }
+
+let json_commands = {
+    "questions": [
+        {
+            "id": 0,
+            "question": "What's your name",
+            "answer": "My name is assistant. Im the world leader."
+        },
+        {
+            "id": 1,
+            "question": "Who made you",
+            "answer": "The greatest person on the Earth. The Glorious Matěj."
+        },
+        {
+            "id": 2,
+            "question": "I need designer",
+            "answer": "Go find Lisa Martinovska."
+        }
+    ]
+};
