@@ -1,4 +1,5 @@
-let state = 0; // 0 is paused, 1 if running
+// 0 is paused, 1 if running
+let state = 0;
 
 // make the eye ball follow the mouse
 let eye_ball = document.getElementById("eye-ball");
@@ -7,10 +8,15 @@ let main_header = document.getElementById("main-header");
 let eye_bg = document.getElementById("eye_bg");
 let answer = "";
 
+let recognition, SpeechRecognition, json_commands;
+
 try {    
     // setting up the speech recognizer 
-    let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    let recognition = new SpeechRecognition();
+    SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognition = new SpeechRecognition();
+
+    // get json from server
+    jsonGet("commands.json", jsonSet);
 
     // setting up the events
     recognition.onresult = function(event) {
@@ -21,7 +27,7 @@ try {
     
         // Add the current transcript to the contents of our Note.
         answer += transcript;
-
+        console.log(answer);
         // answers
         evaluateQuestion(answer);
         toggleSpeaking();
@@ -67,7 +73,7 @@ function toggleSpeaking() {
 // function that reads the message
 function readOutLoud(message) {
     var speech = new SpeechSynthesisUtterance();
-    speech.lang = "en-US";
+    speech.lang = "en-GB";
   
     // Set the text and voice attributes.
     speech.text = message;
@@ -80,32 +86,58 @@ function readOutLoud(message) {
 
 // function that handles answers
 function evaluateQuestion(question) {
+    question = question.toLowerCase();
     // loop through the commands
-
     for (var key in json_commands.questions) {
         // check also if property is not inherited from prototype
         if (json_commands.questions.hasOwnProperty(key)) { 
-          console.log("looping");
+            // if we found the question in a json commands
+          if (json_commands.questions[key].question.toLowerCase() == question) {
+        
+            // readout loud
+            readOutLoud(json_commands.questions[key].answer);
+
+            // if has action, execute it
+            if (json_commands.questions[key].hasOwnProperty("action")) {
+                evaluateAction(json_commands.questions[key].action, json_commands.questions[key].action_data);
+            }
+
+            break;
+          }
         }
     }
 }
 
-let json_commands = {
-    "questions": [
-        {
-            "id": 0,
-            "question": "What's your name",
-            "answer": "My name is assistant. Im the world leader."
-        },
-        {
-            "id": 1,
-            "question": "Who made you",
-            "answer": "The greatest person on the Earth. The Glorious Matěj."
-        },
-        {
-            "id": 2,
-            "question": "I need designer",
-            "answer": "Go find Lisa Martinovska."
+// function that takes the action and date
+function evaluateAction(action, data) {
+    switch (action) {
+        case "open_url":
+            window.open(data, '_blank');
+            break;
+    }
+}
+
+// function that gets json from server
+function jsonGet(url, callback) {
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            console.log('responseText:' + xmlhttp.responseText);
+            try {
+                var data = JSON.parse(xmlhttp.responseText);
+            } catch(err) {
+                console.log(err.message + " in " + xmlhttp.responseText);
+                return;
+            }
+            callback(data);
         }
-    ]
-};
+    };
+ 
+    xmlhttp.open("GET", url, true);
+    xmlhttp.send();
+}
+
+// function that sets json data
+function jsonSet(data) {
+    json_commands = data;
+}
