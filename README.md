@@ -4,7 +4,7 @@
 This is a pure JavaScript assistant that can respond to commands given in JSON file. In the future it should be capable of multiple actions. At this state it is capable of opening url in new tab. 
 
 ### Idea
-This should be just a cool application and it should represent actual technology of browsers. 
+This should be just a cool application. 
 
 ### Support
 Just because it is written in JS, it is simple, but it has a lot of limitations. This works only in Google Chrome, Android webview, Chrome for Android and Samsung Internet.
@@ -31,3 +31,12 @@ Main.js file contains all the javascript needed. When is the application launche
     ]
 }
 ```
+
+### Example
+You can find example right there [Solcode Assistant](https://solcode.net/the-assistant/)
+
+You can ask it: 
+- Whats your name?
+- Who made you?
+- I need designer
+- I need website
