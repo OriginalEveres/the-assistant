@@ -1,19 +1,43 @@
 {
     "questions": [
         {
-            "id": 0,
             "question": "What's your name",
             "answer": "My name is assistant. Im the world leader."
         },
         {
-            "id": 1,
             "question": "Who made you",
             "answer": "The greatest person on the Earth. The Glorious Matthew."
         },
         {
-            "id": 2,
             "question": "I need designer",
-            "answer": "Go find Lisa Martinovska."
+            "answer": "Take a look at this cool design girl.",
+            "action": "open_url",
+            "action_data": "https://lisamartinovska.com"
+        },
+        {
+            "question": "I need website",
+            "answer": "Solcode is a company that provides complex IT solutions, check them out.",
+            "action": "open_url",
+            "action_data": "https://solcode.net"
+        },
+        {
+            "question": "I need a website",
+            "answer": "Solcode is a company that provides complex IT solutions, check them out.",
+            "action": "open_url",
+            "action_data": "https://solcode.net"
+        },
+        {
+            "question": "I need an application",
+            "answer": "Solcode is a company that provides complex IT solutions, check them out.",
+            "action": "open_url",
+            "action_data": "https://solcode.net"
+        },
+        {
+            "question": "I need application",
+            "answer": "Solcode is a company that provides complex IT solutions, check them out.",
+            "action": "open_url",
+            "action_data": "https://solcode.net"
         }
+
     ]
 }

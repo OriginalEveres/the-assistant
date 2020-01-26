@@ -73,7 +73,7 @@ function toggleSpeaking() {
 // function that reads the message
 function readOutLoud(message) {
     var speech = new SpeechSynthesisUtterance();
-    speech.lang = "en-GB";
+    speech.lang = "en-US";
   
     // Set the text and voice attributes.
     speech.text = message;
