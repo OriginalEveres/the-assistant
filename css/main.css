@@ -1,6 +1,6 @@
 body, html {
     margin: 0;
-    background-color: #2D132C;
+    background-color: #0B121B;
     height: 100%;
     font-family: Sanchez, sans-serif;
     color: white;
@@ -122,4 +122,34 @@ button:focus {
     line-height: 15px;
     text-align: center;
     color: #C72C41;
+}
+
+.outline-button {
+    font-size: 16px;
+    line-height: 24px;
+    font-family: Roboto, arial;
+    font-weight: bold !important;
+    font-style: normal;
+    text-decoration: none;
+    padding: 16px 40px;
+    border: 2px solid #de314f;
+    box-sizing: border-box;
+    transition: 240ms ease;
+    cursor: pointer;
+    transition-property: all !important;
+}
+
+.outline-button-red {
+    color: white;
+}
+
+.top-right-btn {
+    position: absolute;
+    top: 14px;
+    right: 40px;
+}
+
+.outline-button-red:hover {
+    background: #de314f;
+    color: white;
 }
